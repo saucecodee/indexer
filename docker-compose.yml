@@ -1,0 +1,24 @@
+version: "3.7"
+
+services:
+
+  redis:
+    image: redis
+    container_name: redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - 6379:6379
+
+  server:
+    container_name: server
+    build:
+      context: ./server
+    environment:
+      REDIS_URL: redis:6379
+    ports:
+     - 2020:2020
+    volumes:
+      - ./:/var/app
+    depends_on:
+      - redis
